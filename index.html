@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Surpresa ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* FOTO (ESCONDIDA NO INÍCIO) */
+.bg-foto {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('jpg.gigi.jpeg') no-repeat center center;
+    background-size: contain; /* 👈 NÃO CORTA */
+    background-color: black;
+    opacity: 0;
+    transition: 1s;
+    z-index: 0;
+}
+
+/* ESCURECER FOTO */
+.bg-foto::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+}
+
+/* MOSTRAR FOTO */
+.mostrar-foto {
+    opacity: 1;
+}
+
+/* LOGIN */
+.login {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white; /* 👈 corrigido */
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.9);
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background: pink;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+/* CORAÇÃO */
+.heart-container {
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.heart {
+    width: 150px;
+    height: 150px;
+    background: red;
+    transform: rotate(-45deg);
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 30px red, 0 0 60px pink;
+    transition: 1s;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    width: 150px;
+    height: 150px;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before { top: -75px; }
+.heart::after { left: 75px; }
+
+@keyframes pulse {
+    0% { transform: scale(1) rotate(-45deg); }
+    50% { transform: scale(1.1) rotate(-45deg); }
+    100% { transform: scale(1) rotate(-45deg); }
+}
+
+.open {
+    transform: scale(0);
+    opacity: 0;
+}
+
+/* MENSAGEM */
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    text-align: center;
+    width: 320px;
+    transition: 1s;
+    color: white;
+}
+
+.show-message {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+h1 {
+    color: pink;
+    text-shadow: 0 0 10px pink, 0 0 20px red;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FOTO FUNDO -->
+<div class="bg-foto" id="bgFoto"></div>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+    <h2>Área secreta ❤️</h2>
+    <input type="text" id="nome" placeholder="Seu nome">
+    <input type="password" id="senha" placeholder="Senha especial">
+    <button onclick="entrar()">Entrar</button>
+    <p id="erro" style="color:red;"></p>
+</div>
+
+<!-- CONTEÚDO -->
+<div id="conteudo" class="hidden">
+    
+    <audio id="musica" loop>
+        <source src="musica.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="heart-container" onclick="abrirCoracao()">
+        <div class="heart" id="heart"></div>
+
+        <div class="message" id="message">
+            <h1>🎉 Feliz Nosso Aniversário Meu Amor!! 🎉</h1>
+            <p>
+            Hoje é o dia em que começou a melhor parte da minha vida!!💗<br><br>
+            Desde que você chegou, tudo mudou. Os dias ficaram mais leves, os momentos mais legais, cheios de cor e até as coisas simples ganharam sentido, porque eu tenho você comigo.<br><br>
+            A gente já passou por muita coisa juntos nesses 4 anos, e cada momento, cada ensinamento, me fazem ter mais certeza de que é você que eu quero ao meu lado.<br><br>
+            Obrigado por tudo, por cada sorriso, por cada abraço, por nunca desistir do que estamos construindo.<br><br>
+
+            Eu te amo muito ❤️<br>
+            Meu maior desejo é continuar construindo essa história com você, hoje, amanhã e pra sempre! 💘
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// CONFIGURAÇÕES
+const nomeCorreto = "Giovanna";
+const senhaCorreta = "020522";
+
+// LOGIN
+function entrar() {
+    let nome = document.getElementById("nome").value;
+    let senha = document.getElementById("senha").value;
+
+    if (nome.toLowerCase() === nomeCorreto.toLowerCase() && senha === senhaCorreta) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("conteudo").classList.remove("hidden");
+    } else {
+        document.getElementById("erro").innerText = "Tenta de novo ❤️";
+    }
+}
+
+// CORAÇÃO + FOTO + MÚSICA
+function abrirCoracao() {
+    document.getElementById("heart").classList.add("open");
+    document.getElementById("message").classList.add("show-message");
+
+    
+    document.getElementById("bgFoto").classList.add("mostrar-foto");
+
+    // MÚSICA
+    document.getElementById("musica").play().catch(() => {});
+}
+</script>
+
+</body>
+</html>
